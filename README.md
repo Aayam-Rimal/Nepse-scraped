@@ -20,7 +20,7 @@
 ## 🛠️ Installation & Run
 
 1) clone the repository
- - git clone git@github.com:yeeterxx/Nepse-scraped.git
+ - git clone git@github.com:Aayam-Rimal/Nepse-scraped.git
 
 2) Create a virtual environment
 
