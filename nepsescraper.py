@@ -2,17 +2,31 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from datetime import datetime, date
-import sys
+import logging
 
-with open("which_python.log", "w") as f:
-    f.write(sys.executable)
+log_path= "/home/aayam/Desktop/nepse_scraper/scraper.log"
 
-url="https://merolagani.com/latestmarket.aspx"
-source= requests.get(url)
-soup=BeautifulSoup(source.text, "lxml")
+logging.basicConfig(
+     filename=log_path,
+     level= logging.info,
+     format='%(asctime)s — %(levelname)s — %(message)s',
+     force=True
+
+)
+
+
+try:
+    url="https://merolagani.com/latestmarket.aspx"
+    source= requests.get(url)
+    soup=BeautifulSoup(source.text, "lxml")
+    logging.info(f"Fetched data from {url} successfully")
+
+except requests.exceptions.RequestException as e:
+    logging.info(f"Failed to fetch url : {e}")
 
 rows= soup.select("table.table tbody tr")
 price_dict=[]
+
 
 for row in rows:
     title_tag= row.find("a")
@@ -66,6 +80,8 @@ all_data.append({"date":str(datetime.now().date()),
 
 with open (json_path, "w") as f:
         json.dump(all_data, f, indent=4)
+
+logging.info("Nepse.json updated successfully")
 
     
 
